@@ -121,7 +121,7 @@ io.on("connection", (socket) => {
       io.to(to_user_socketId).emit("new_message_arrived", data);
     }
   });
-
+// socket disconnec
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
     // Assuming you store user_id in socket object
