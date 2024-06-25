@@ -22,3 +22,4 @@ jobs:
     - run: npm ci
     - name: Create .env file
       run: echo "${{ secrets.PROD_ENV_FILE }}" > .env
+    - run: npm start
