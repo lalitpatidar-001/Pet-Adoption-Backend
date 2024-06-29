@@ -27,27 +27,24 @@ jobs:
       - name: Checkout the source code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Clear Docker Cache
-        run: docker builder prune -f
-
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Get Existing Image Digest
-        id: image-digest-before
-        run: |
-          echo "digest=$(docker buildx imagetools inspect lalitpatidar001/pet-adoption-backend:latest --format '{{ .Digest }}')" >> $GITHUB_ENV
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
 
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
+          push: true
           tags: lalitpatidar001/pet-adoption-backend:latest
           secrets: |
             "DB_URL=${{ secrets.DB_URL }}"
@@ -64,19 +61,9 @@ jobs:
             "GOOGLE_AUTH_CLIENT_SECRET=${{ secrets.GOOGLE_AUTH_CLIENT_SECRET }}"
             "GOOGLE_AUTH_CALLBACK_URL=${{ secrets.GOOGLE_AUTH_CALLBACK_URL }}"
 
-      - name: Get New Image Digest
-        id: image-digest-after
+      - name: Verify Image Push
         run: |
-          echo "digest=$(docker buildx imagetools inspect lalitpatidar001/pet-adoption-backend:latest --format '{{ .Digest }}')" >> $GITHUB_ENV
-
-      - name: Check Image Push Success
-        run: |
-          if [ "${{ env.digest_before }}" = "${{ env.digest_after }}" ]; then
-            echo "Image push failed or image unchanged."
-            exit 1
-          else
-            echo "Image pushed successfully."
-          fi
+          docker buildx imagetools inspect lalitpatidar001/pet-adoption-backend:latest
 
   deploy:
     needs: build
