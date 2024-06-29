@@ -30,20 +30,6 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-        env :
-          PORT : ${{secrets.PORT}}
-          DB_URL : ${{secrets.DB_URL}}
-          JWT_SECRET_KEY : ${{secrets.JWT_SECRET_KEY}}
-          JWT_ISSUER : ${{secrets.JWT_ISSUER}}
-          JWT_AUDIENCE : ${{secrets.JWT_AUDIENCE}}
-          JWT_ALGORITHM : ${{secrets.JWT_ALGORITHM}}
-          JWT_EXPIRES_IN : ${{secrets.JWT_EXPIRES_IN}}
-          SESSION_SECRET : ${{secrets.SESSION_SECRET}}
-          OAUTH_SUCCESS_URL : ${{secrets.OAUTH_SUCCESS_URL}}
-          OAUTH_FAILURE_URL : ${{secrets.OAUTH_FAILURE_URL}}
-          GOOGLE_AUTH_CLIENT_ID : ${{secrets.GOOGLE_AUTH_CLIENT_ID}}
-          GOOGLE_AUTH_CLIENT_SECRET : ${{secrets.GOOGLE_AUTH_CLIENT_SECRET}}
-          GOOGLE_AUTH_CALLBACK_URL : ${{secrets.GOOGLE_AUTH_CALLBACK_URL}}
 
       - name : Login to docker hub
         run  : docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}

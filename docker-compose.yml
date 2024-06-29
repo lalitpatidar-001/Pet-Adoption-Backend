@@ -7,7 +7,7 @@ services:
     ports: 
       - 4000:4000
     environment:
-      -  PORT = ${PORT}
+      -  PORT=${PORT}
       -  DB_URL = ${DB_URL}
       -  JWT_SECRET_KEY = ${JWT_SECRET_KEY}
       -  JWT_ISSUER = ${JWT_ISSUER}
