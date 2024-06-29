@@ -56,6 +56,10 @@ jobs:
             "GOOGLE_AUTH_CLIENT_SECRET=${{ secrets.GOOGLE_AUTH_CLIENT_SECRET }}"
             "GOOGLE_AUTH_CALLBACK_URL=${{ secrets.GOOGLE_AUTH_CALLBACK_URL }}"
 
+      - name: Verify Image Push
+        run: |
+          docker buildx imagetools inspect lalitpatidar001/pet-adoption-backend:latest
+
   deploy:
     needs: build
     runs-on: self-hosted
@@ -78,7 +82,7 @@ jobs:
       - name: Pull image from Docker Hub
         run: sudo docker pull lalitpatidar001/pet-adoption-backend:latest
       
-      - name: Stop existing container if existss
+      - name: Stop existing container if exists
         run: sudo docker stop pet-adoption-backend-container || true
 
       - name: Remove existing container if exists
