@@ -136,6 +136,7 @@ io.on("connection", (socket) => {
 
 // server config
 server.listen(process.env.PORT || 4000, () => {
+  console.log("env ",process.env);
   console.log("Server is running on port", process.env.PORT ||4001);
 });
 
