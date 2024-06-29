@@ -42,10 +42,10 @@ jobs:
     runs-on : self-hosted
     steps :
       - name : Pull image from Docker hub
-        run  : docker pull lalitpatidar001/pet-adoption-backend:latest
+        run  : sudo docker pull lalitpatidar001/pet-adoption-backend:latest
       
       - name : Run docker container
-        run  : docker run -d --name pet-adoption-backend-container -p 4000:4000 lalitpatidar001/pet-adoption-backend
+        run  : sudo docker run -d --name pet-adoption-backend-container -p 4000:4000 lalitpatidar001/pet-adoption-backend
 
       
 
