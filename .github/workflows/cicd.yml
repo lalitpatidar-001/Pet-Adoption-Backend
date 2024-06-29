@@ -28,7 +28,7 @@ jobs:
       - name : Checkout the source code
         uses : actions/checkout@v4
       - name : print the info
-        run  : echo "google auth id " ${{GOOGLE_AUTH_CLIENT_ID}}
+        run  : echo "google auth id " $GOOGLE_AUTH_CLIENT_ID
 
       - name : Login to docker hub
         run  : docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
