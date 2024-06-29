@@ -30,11 +30,11 @@ app.use((req,res,next)=>{
   next()
 })
 
-// app.use(session({
-//   secret: process.env.SESSION_SECRET, // Replace with a random string used to sign the session ID cookie
-//   resave: false,
-//   saveUninitialized: false,
-// }));
+app.use(session({
+  secret: process.env.SESSION_SECRET, // Replace with a random string used to sign the session ID cookie
+  resave: false,
+  saveUninitialized: false,
+}));
 
 
 app.use(cors({
