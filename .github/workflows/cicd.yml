@@ -46,6 +46,12 @@ jobs:
       - name : Pull image from Docker hub
         run  : sudo docker pull lalitpatidar001/pet-adoption-backend:latest
       
+      - name : Stopping existing container if exists
+        run  : sudo docker stop pet-adoption-backend-container
+
+      - name : Removing existing container if exists
+        run  : sudo docker rm pet-adoption-backend-container
+      
       - name : Run docker container
         run  : sudo docker run -d --name pet-adoption-backend-container -p 4000:4000 lalitpatidar001/pet-adoption-backend
 
