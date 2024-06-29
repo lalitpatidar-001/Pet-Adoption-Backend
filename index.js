@@ -8,7 +8,7 @@ const fs = require("fs");
 const passport = require("passport")
 const session = require('express-session');
 require("dotenv").config();
-require("./auth_config/passport")
+// require("./auth_config/passport")
 const app = express();
 
 // router imports
