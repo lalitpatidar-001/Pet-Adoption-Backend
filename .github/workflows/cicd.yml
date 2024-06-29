@@ -39,10 +39,7 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: true
           tags: lalitpatidar001/pet-adoption-backend:latest
           secrets: |
             "DB_URL=${{ secrets.DB_URL }}"
