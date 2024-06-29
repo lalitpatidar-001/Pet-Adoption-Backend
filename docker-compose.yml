@@ -1,22 +1,132 @@
-version: "3"
+# version: "3"
 
-services:
-  app:
-    build: . 
-    image: lalitpatidar001/pet-adoption-backend:latest
-    ports: 
-      - 4000:4000
-    environment:
-      - PORT=${PORT}
-      - DB_URL=${DB_URL}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
-      - JWT_ISSUER=${JWT_ISSUER}
-      - JWT_AUDIENCE=${JWT_AUDIENCE}
-      - JWT_ALGORITHM=${JWT_ALGORITHM}
-      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
-      - SESSION_SECRET=${SESSION_SECRET}
-      - OAUTH_SUCCESS_URL=${OAUTH_SUCCESS_URL}
-      - OAUTH_FAILURE_URL=${OAUTH_FAILURE_URL}
-      - GOOGLE_AUTH_CLIENT_ID=${GOOGLE_AUTH_CLIENT_ID}
-      - GOOGLE_AUTH_CLIENT_SECRET=${GOOGLE_AUTH_CLIENT_SECRET}
-      - GOOGLE_AUTH_CALLBACK_URL=${GOOGLE_AUTH_CALLBACK_URL}
+# services:
+#   app:
+#     build: . 
+#     image: lalitpatidar001/pet-adoption-backend:latest
+#     ports: 
+#       - 4000:4000
+#     environment:
+#       - PORT=${PORT}
+#       - DB_URL=${DB_URL}
+#       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+#       - JWT_ISSUER=${JWT_ISSUER}
+#       - JWT_AUDIENCE=${JWT_AUDIENCE}
+#       - JWT_ALGORITHM=${JWT_ALGORITHM}
+#       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+#       - SESSION_SECRET=${SESSION_SECRET}
+#       - OAUTH_SUCCESS_URL=${OAUTH_SUCCESS_URL}
+#       - OAUTH_FAILURE_URL=${OAUTH_FAILURE_URL}
+#       - GOOGLE_AUTH_CLIENT_ID=${GOOGLE_AUTH_CLIENT_ID}
+#       - GOOGLE_AUTH_CLIENT_SECRET=${GOOGLE_AUTH_CLIENT_SECRET}
+#       - GOOGLE_AUTH_CALLBACK_URL=${GOOGLE_AUTH_CALLBACK_URL}
+
+# #########
+# name: Deploy Pet-Adoption-Backend
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     env:
+#       PORT: ${{secrets.PORT}}
+#       DB_URL: ${{secrets.DB_URL}}
+#       JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
+#       JWT_ISSUER: ${{secrets.JWT_ISSUER}}
+#       JWT_AUDIENCE: ${{secrets.JWT_AUDIENCE}}
+#       JWT_ALGORITHM: ${{secrets.JWT_ALGORITHM}}
+#       JWT_EXPIRES_IN: ${{secrets.JWT_EXPIRES_IN}}
+#       SESSION_SECRET: ${{secrets.SESSION_SECRET}}
+#       OAUTH_SUCCESS_URL: ${{secrets.OAUTH_SUCCESS_URL}}
+#       OAUTH_FAILURE_URL: ${{secrets.OAUTH_FAILURE_URL}}
+#       GOOGLE_AUTH_CLIENT_ID: ${{secrets.GOOGLE_AUTH_CLIENT_ID}}
+#       GOOGLE_AUTH_CLIENT_SECRET: ${{secrets.GOOGLE_AUTH_CLIENT_SECRET}}
+#       GOOGLE_AUTH_CALLBACK_URL: ${{secrets.GOOGLE_AUTH_CALLBACK_URL}}
+
+#     steps:
+#       - name: Checkout the source code
+#         uses: actions/checkout@v4
+
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v2
+#         with:
+#           username: ${{ secrets.DOCKER_USERNAME }}
+#           password: ${{ secrets.DOCKER_PASSWORD }}
+      
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v3
+
+
+#       - name: Build and Push
+#         uses: docker/build-push-action@v6
+#         with:
+#           platforms: linux/amd64,linux/arm64
+#           push: true
+#           tags: lalitpatidar001/pet-adoption-backend:latest
+#           secrets: |
+#             "DB_URL=${{ secrets.DB_URL }}"
+#             "PORT=${{ secrets.PORT }}"
+#             "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}"
+#             "JWT_ISSUER=${{ secrets.JWT_ISSUER }}"
+#             "JWT_AUDIENCE=${{ secrets.JWT_AUDIENCE }}"
+#             "JWT_ALGORITHM=${{ secrets.JWT_ALGORITHM }}"
+#             "JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}"
+#             "SESSION_SECRET=${{ secrets.SESSION_SECRET }}"
+#             "OAUTH_SUCCESS_URL=${{ secrets.OAUTH_SUCCESS_URL }}"
+#             "OAUTH_FAILURE_URL=${{ secrets.OAUTH_FAILURE_URL }}"
+#             "GOOGLE_AUTH_CLIENT_ID=${{ secrets.GOOGLE_AUTH_CLIENT_ID }}"
+#             "GOOGLE_AUTH_CLIENT_SECRET=${{ secrets.GOOGLE_AUTH_CLIENT_SECRET }}"
+#             "GOOGLE_AUTH_CALLBACK_URL=${{ secrets.GOOGLE_AUTH_CALLBACK_URL }}"
+
+
+#   deploy:
+#     needs: build
+#     runs-on: self-hosted
+#     env:
+#       PORT: ${{secrets.PORT}}
+#       DB_URL: ${{secrets.DB_URL}}
+#       JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
+#       JWT_ISSUER: ${{secrets.JWT_ISSUER}}
+#       JWT_AUDIENCE: ${{secrets.JWT_AUDIENCE}}
+#       JWT_ALGORITHM: ${{secrets.JWT_ALGORITHM}}
+#       JWT_EXPIRES_IN: ${{secrets.JWT_EXPIRES_IN}}
+#       SESSION_SECRET: ${{secrets.SESSION_SECRET}}
+#       OAUTH_SUCCESS_URL: ${{secrets.OAUTH_SUCCESS_URL}}
+#       OAUTH_FAILURE_URL: ${{secrets.OAUTH_FAILURE_URL}}
+#       GOOGLE_AUTH_CLIENT_ID: ${{secrets.GOOGLE_AUTH_CLIENT_ID}}
+#       GOOGLE_AUTH_CLIENT_SECRET: ${{secrets.GOOGLE_AUTH_CLIENT_SECRET}}
+#       GOOGLE_AUTH_CALLBACK_URL: ${{secrets.GOOGLE_AUTH_CALLBACK_URL}}
+
+#     steps:
+#       - name: Pull image from Docker Hub
+#         run: sudo docker pull lalitpatidar001/pet-adoption-backend:latest
+      
+#       - name: Stop existing container if exists
+#         run: sudo docker stop pet-adoption-backend-container || true
+
+#       - name: Remove existing container if exists
+#         run: sudo docker rm pet-adoption-backend-container || true
+      
+#       - name: Run Docker container
+#         run: |
+#           sudo docker run -d \
+#             --name pet-adoption-backend-container \
+#             -p 4000:4000 \
+#             -e PORT=${{secrets.PORT}} \
+#             -e DB_URL=${{secrets.DB_URL}} \
+#             -e JWT_SECRET_KEY=${{secrets.JWT_SECRET_KEY}} \
+#             -e JWT_ISSUER=${{secrets.JWT_ISSUER}} \
+#             -e JWT_AUDIENCE=${{secrets.JWT_AUDIENCE}} \
+#             -e JWT_ALGORITHM=${{secrets.JWT_ALGORITHM}} \
+#             -e JWT_EXPIRES_IN=${{secrets.JWT_EXPIRES_IN}} \
+#             -e SESSION_SECRET=${{secrets.SESSION_SECRET}} \
+#             -e OAUTH_SUCCESS_URL=${{secrets.OAUTH_SUCCESS_URL}} \
+#             -e OAUTH_FAILURE_URL=${{secrets.OAUTH_FAILURE_URL}} \
+#             -e GOOGLE_AUTH_CLIENT_ID=${{secrets.GOOGLE_AUTH_CLIENT_ID}} \
+#             -e GOOGLE_AUTH_CLIENT_SECRET=${{secrets.GOOGLE_AUTH_CLIENT_SECRET}} \
+#             -e GOOGLE_AUTH_CALLBACK_URL=${{secrets.GOOGLE_AUTH_CALLBACK_URL}} \
+#             lalitpatidar001/pet-adoption-backend:latest
