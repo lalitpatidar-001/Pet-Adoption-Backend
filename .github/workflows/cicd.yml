@@ -27,23 +27,27 @@ jobs:
       - name: Checkout the source code
         uses: actions/checkout@v4
 
-      - name: Print environment variables (masked in logs)
-        run: |
-          echo "PORT: $PORT"
-          echo "DB_URL: $DB_URL"
-          # Add other variables as needed
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+        
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64,linux/arm64
+          tags: lalitpatidar001/pet-adoption-backend:latest
+          secrets: |
+            "DB_URL=${{ secrets.DB_URL }}"
+            "PORT=${{ secrets.PORT }}"
 
-      - name: Login to Docker Hub
-        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+
+      # - name: Login to Docker Hub
+      #   run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
       
-      - name: Build Docker image
-        run: docker compose build
+      # - name: Build Docker image
+      #   run: docker compose build
 
-      - name: Push image to Docker Hub
-        run: docker push lalitpatidar001/pet-adoption-backend:latest
+      # - name: Push image to Docker Hub
+      #   run: docker push lalitpatidar001/pet-adoption-backend:latest
 
   deploy:
     needs: build
@@ -59,37 +63,7 @@ jobs:
         run: sudo docker rm pet-adoption-backend-container || true
       
       - name: Run Docker container
-        env:
-          PORT: ${{secrets.PORT}}
-          DB_URL: ${{secrets.DB_URL}}
-          JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
-          JWT_ISSUER: ${{secrets.JWT_ISSUER}}
-          JWT_AUDIENCE: ${{secrets.JWT_AUDIENCE}}
-          JWT_ALGORITHM: ${{secrets.JWT_ALGORITHM}}
-          JWT_EXPIRES_IN: ${{secrets.JWT_EXPIRES_IN}}
-          SESSION_SECRET: ${{secrets.SESSION_SECRET}}
-          OAUTH_SUCCESS_URL: ${{secrets.OAUTH_SUCCESS_URL}}
-          OAUTH_FAILURE_URL: ${{secrets.OAUTH_FAILURE_URL}}
-          GOOGLE_AUTH_CLIENT_ID: ${{secrets.GOOGLE_AUTH_CLIENT_ID}}
-          GOOGLE_AUTH_CLIENT_SECRET: ${{secrets.GOOGLE_AUTH_CLIENT_SECRET}}
-          GOOGLE_AUTH_CALLBACK_URL: ${{secrets.GOOGLE_AUTH_CALLBACK_URL}}
         run: |
-          sudo docker run -d --name pet-adoption-backend-container \
-            -p 4000:4000 \
-            --env PORT \
-            --env DB_URL \
-            --env JWT_SECRET_KEY \
-            --env JWT_ISSUER \
-            --env JWT_AUDIENCE \
-            --env JWT_ALGORITHM \
-            --env JWT_EXPIRES_IN \
-            --env SESSION_SECRET \
-            --env OAUTH_SUCCESS_URL \
-            --env OAUTH_FAILURE_URL \
-            --env GOOGLE_AUTH_CLIENT_ID \
-            --env GOOGLE_AUTH_CLIENT_SECRET \
-            --env GOOGLE_AUTH_CALLBACK_URL \
-            lalitpatidar001/pet-adoption-backend:latest
+          sudo docker run -d --name pet-adoption-backend-container lalitpatidar001/pet-adoption-backend:latest
 
-      - name : print info
-        run : echo "PORT $PORT"
+    
