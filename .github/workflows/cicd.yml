@@ -41,7 +41,7 @@ jobs:
     needs : build
     runs-on : self-hosted
     steps :
-      - name : Pull image from docker hub
+      - name : Pull image from Docker hub
         run  : docker pull lalitpatidar001/pet-adoption-backend
       
       - name : Run docker container
