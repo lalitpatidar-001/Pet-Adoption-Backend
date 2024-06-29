@@ -92,4 +92,4 @@ jobs:
             lalitpatidar001/pet-adoption-backend:latest
 
       - name : print info
-        run : echo "PORT $PORT""
+        run : echo "PORT $PORT"
