@@ -72,9 +72,9 @@ app.use("/api/message", messageRouter);
 
 
 // DB config
-// mongoose.connect(process.env.DB_URL)
-//   .then(() => console.log("DB Connected."))
-//   .catch(error => console.log("DB error", error));
+mongoose.connect(process.env.DB_URL)
+  .then(() => console.log("DB Connected."))
+  .catch(error => console.log("DB error", error));
 
 // Initialize an empty onlineUsers object
 const onlineUsers = {};
