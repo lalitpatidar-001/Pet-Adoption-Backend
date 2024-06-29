@@ -90,3 +90,6 @@ jobs:
             --env GOOGLE_AUTH_CLIENT_SECRET \
             --env GOOGLE_AUTH_CALLBACK_URL \
             lalitpatidar001/pet-adoption-backend:latest
+
+      - name : print info
+        run : echo "PORT $PORT""
