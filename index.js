@@ -8,7 +8,7 @@ const fs = require("fs");
 const passport = require("passport")
 const session = require('express-session');
 require("dotenv").config();
-require("./auth_config/passport")
+// require("./auth_config/passport")
 const app = express();
 
 // router imports
@@ -30,11 +30,11 @@ app.use((req,res,next)=>{
   next()
 })
 
-app.use(session({
-  secret: process.env.SESSION_SECRET, // Replace with a random string used to sign the session ID cookie
-  resave: false,
-  saveUninitialized: false,
-}));
+// app.use(session({
+//   secret: process.env.SESSION_SECRET, // Replace with a random string used to sign the session ID cookie
+//   resave: false,
+//   saveUninitialized: false,
+// }));
 
 
 app.use(cors({
@@ -72,9 +72,9 @@ app.use("/api/message", messageRouter);
 
 
 // DB config
-mongoose.connect(process.env.DB_URL)
-  .then(() => console.log("DB Connected."))
-  .catch(error => console.log("DB error", error));
+// mongoose.connect(process.env.DB_URL)
+//   .then(() => console.log("DB Connected."))
+//   .catch(error => console.log("DB error", error));
 
 // Initialize an empty onlineUsers object
 const onlineUsers = {};
@@ -136,7 +136,7 @@ io.on("connection", (socket) => {
 
 // server config
 server.listen(process.env.PORT || 4000, () => {
-  console.log("Server is running on port", process.env.PORT ||4000);
+  console.log("Server is running on port", process.env.PORT ||4001);
 });
 
 
