@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,7 +8,6 @@ const { Server } = require("socket.io");
 const fs = require("fs");
 const passport = require("passport")
 const session = require('express-session');
-require("dotenv").config();
 // require("./auth_config/passport")
 const app = express();
 
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 });
 app.use((req,res,next)=>{
   res.header("Access-Control-Allow-Credentials",true);
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_SERVER_URL);
   next()
 })
 
@@ -38,7 +38,7 @@ app.use(session({
 
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.FRONTEND_SERVER_URL,
   // credentials: true,
   // optionsSuccessStatus: 200,
 }));
@@ -50,7 +50,7 @@ const server = new http.createServer(app);
 // socket config
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_SERVER_URL,
     methods: ["GET", "POST"],
     // credentials: true,
   }
@@ -136,7 +136,7 @@ io.on("connection", (socket) => {
 
 // server config
 server.listen(process.env.PORT || 4000, () => {
-  console.log("env ",process.env);
+  // console.log("env ",process.env);
   console.log("Server is running on port", process.env.PORT ||4001);
 });
 

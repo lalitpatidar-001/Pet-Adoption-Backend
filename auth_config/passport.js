@@ -4,6 +4,8 @@ const GithubStrategy = require("passport-github2");
 const { OAuthUserLoginOrRegister } = require("../controllers/auth");
 const User = require("../models/User");
 const generateJWTToken = require("../utils/jwtToken");
+
+
 passport.use(
   new GoogleStrategy(
     {
