@@ -22,6 +22,7 @@ jobs:
       GOOGLE_AUTH_CLIENT_ID: ${{secrets.GOOGLE_AUTH_CLIENT_ID}}
       GOOGLE_AUTH_CLIENT_SECRET: ${{secrets.GOOGLE_AUTH_CLIENT_SECRET}}
       GOOGLE_AUTH_CALLBACK_URL: ${{secrets.GOOGLE_AUTH_CALLBACK_URL}}
+      FRONTEND_SERVER_URL: ${{secrets.FRONTEND_SERVER_URL}}
 
     steps:
       - name: Checkout the source code
@@ -57,6 +58,7 @@ jobs:
             "GOOGLE_AUTH_CLIENT_ID=${{ secrets.GOOGLE_AUTH_CLIENT_ID }}"
             "GOOGLE_AUTH_CLIENT_SECRET=${{ secrets.GOOGLE_AUTH_CLIENT_SECRET }}"
             "GOOGLE_AUTH_CALLBACK_URL=${{ secrets.GOOGLE_AUTH_CALLBACK_URL }}"
+            "FRONTEND_SERVER_URL=${{ secrets.FRONTEND_SERVER_URL }}"
 
 
   deploy:
@@ -76,6 +78,7 @@ jobs:
       GOOGLE_AUTH_CLIENT_ID: ${{secrets.GOOGLE_AUTH_CLIENT_ID}}
       GOOGLE_AUTH_CLIENT_SECRET: ${{secrets.GOOGLE_AUTH_CLIENT_SECRET}}
       GOOGLE_AUTH_CALLBACK_URL: ${{secrets.GOOGLE_AUTH_CALLBACK_URL}}
+      FRONTEND_SERVER_URL: ${{secrets.FRONTEND_SERVER_URL}}
 
     steps:
       - name: Pull image from Docker Hub
@@ -105,4 +108,5 @@ jobs:
             -e GOOGLE_AUTH_CLIENT_ID=${{secrets.GOOGLE_AUTH_CLIENT_ID}} \
             -e GOOGLE_AUTH_CLIENT_SECRET=${{secrets.GOOGLE_AUTH_CLIENT_SECRET}} \
             -e GOOGLE_AUTH_CALLBACK_URL=${{secrets.GOOGLE_AUTH_CALLBACK_URL}} \
+            -e FRONTEND_SERVER_URL=${{secrets.FRONTEND_SERVER_URL}} \
             lalitpatidar001/pet-adoption-backend:latest
