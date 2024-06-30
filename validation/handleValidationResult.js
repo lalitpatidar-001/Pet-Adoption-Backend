@@ -1,7 +1,7 @@
 const {validationResult} = require("express-validator");
 /* 
 handlePostValidationResult function :
-    * Check error for body, params or query schemas definition
+    * Check error for body , params or query schemas definition
     * if error return all errors
     * if not pass request to next middleware
 */
