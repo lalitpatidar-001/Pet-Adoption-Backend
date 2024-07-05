@@ -10,12 +10,20 @@ const loginValidationRules = [
   body("password")
     .notEmpty()
     .withMessage("Password is required")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters long"),
 ];
 
 const registerValidationRules = [
-  ...loginValidationRules,
+  body("email")
+  .notEmpty()
+  .withMessage("Email is required")
+  .isEmail()
+  .withMessage("Invalid email address"),
+
+body("password")
+  .notEmpty()
+  .withMessage("Password is required")
+  .isLength({ min: 6 , max:14 })
+  .withMessage("Password must be  6 to 14 characters long"),
 
   body("username")
     .isString()

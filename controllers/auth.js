@@ -9,9 +9,9 @@ const registration = async (req, res) => {
   try {
     const userExists = await User.findOne({ username: req.body.username });
     if (userExists)
-      return res.status(401).json("username already exists, choose new ");
+      return res.status(401).json({msg:"username already exists, choose new "});
     const emailExists = await User.findOne({ email: req.body.email });
-    if (emailExists) return res.status(401).json("email already exists");
+    if (emailExists) return res.status(401).json({msg:"email already exists"});
 
     const salt = bcrypt.genSaltSync(10);
     if (req.body.password)
@@ -23,7 +23,7 @@ const registration = async (req, res) => {
     return res.status(201).json(others._doc);
   } catch (error) {
     console.log(error);
-    return res.status(500).json("somthing went wrong on server");
+    return res.status(500).json({msg:"somthing went wrong on server"});
   }
 };
 
@@ -34,24 +34,27 @@ const login = async (req, res) => {
     if (!userExists)
       return res.status(404).json({ msg: "wrong email or password" });
 
-    const isPasswordCorrect = bcrypt.compare(
+    const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
       userExists.password
     );
+    console.log("passes", req.body.password,
+      userExists.password)
+    console.log("result",isPasswordCorrect)
     if (!isPasswordCorrect)
-      return res.status(401).json({ msg: "wrong password" });
+      return res.status(401).json({ msg: "wrong email or password" });
     let token = null;
     try {
       token = await generateJWTToken({ id: userExists._id });
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ msg: "something went wron in login" });
+      return res.status(500).json({ msg: "something went wrong in login" });
     }
 
     const { password, ...others } = userExists;
     const sendData = others._doc;
     res.cookie("auth-token", token, { httpOnly: true, samesite: true });
-    return res.status(200).json({ msg: "authentic user", sendData });
+    return res.status(200).json({ msg: "login successfull", sendData });
   } catch (error) {
     res.status(500).json("something went wrong on server");
     console.log("error ", error);

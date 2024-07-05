@@ -1,5 +1,5 @@
-require("dotenv").config();
 const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
@@ -8,8 +8,9 @@ const { Server } = require("socket.io");
 const fs = require("fs");
 const passport = require("passport")
 const session = require('express-session');
+require("dotenv").config();
 // require("./auth_config/passport")
-const app = express();
+
 
 // router imports
 const authRouter = require('./routers/auth');
@@ -24,6 +25,8 @@ app.use((req, res, next) => {
   console.log(`${req.method} request for '${req.url}'`);
   next();
 });
+
+// setting headers
 app.use((req,res,next)=>{
   res.header("Access-Control-Allow-Credentials",true);
   res.header("Access-Control-Allow-Origin", process.env.FRONTEND_SERVER_URL);
@@ -31,7 +34,7 @@ app.use((req,res,next)=>{
 })
 
 app.use(session({
-  secret: process.env.SESSION_SECRET, // Replace with a random string used to sign the session ID cookie
+  secret: process.env.SESSION_SECRET, 
   resave: false,
   saveUninitialized: false,
 }));
@@ -45,9 +48,9 @@ app.use(cors({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 // create socket server 
 const server = new http.createServer(app);
-// socket config
 const io = new Server(server, {
   cors: {
     origin: process.env.FRONTEND_SERVER_URL,
@@ -57,11 +60,13 @@ const io = new Server(server, {
 });
 
 app.use(express.json());
+
+// static routes
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/profiles', express.static(path.join(__dirname, 'profiles')));
 app.use('/messageImages', express.static(path.join(__dirname, 'messageImages')));
 
-// routers
+// routes
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
 app.use("/api/user", userRouter);
