@@ -27,12 +27,18 @@ const updateProfile = async (req, res) => {
 
 
     try {
+        
         // Check if the user exists
         const isUserExist = await User.findById(id);
 
         if (!isUserExist) {
             return res.status(404).json({ msg: "User not found" });
         }
+
+        const isUsernameAvailable = await User.findOne({username});
+
+        if(isUsernameAvailable) return res.status(401).json({msg:"username already exists, choose new"});
+
         // Update the user
         const updateField = {};
         if (fullname) updateField.fullname = fullname;
@@ -50,7 +56,7 @@ const updateProfile = async (req, res) => {
 
         // Send the updated user as the response
         // res.json(updatedUser);
-        return res.json({ msg: "profile updated successfully" })
+        return res.status(200).json({ msg: "profile updated successfully" })
     } catch (error) {
         console.error(error);
         return res.status(500).json({ msg: "Internal Server Error" });
@@ -61,7 +67,7 @@ const getAllAdoption = async (req, res) => {
     const { userId } = req.params;
 
     try {
-        const adoptions = await AdpotionRequest.find({ requester: userId, status: "adopted" }).select("pet owner").populate("owner pet");
+        const adoptions = await AdpotionRequest.find({ requester: userId, status: "adopted" }).sort({createdAt:-1}).select("pet owner").populate("owner pet");
         return res.status(200).json({ message: "all adoptions retrieved", data: adoptions })
     } catch (error) {
         console.error(error);
@@ -93,7 +99,7 @@ const getWishlist = async (req, res) => {
                 dataToSend.push(obj);
             } catch (error) {
                 console.error("Error fetching owner details:", error);
-                // You can choose to handle errors for individual posts here
+                return res.status(500).json({msg:"something went wrong on server side"});
             }
         }
 
